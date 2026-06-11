@@ -1,0 +1,12 @@
+{
+  "name": "smartcareer-ai-backend",
+  "version": "1.0.0",
+  "description": "SmartCareer AI Career Intelligence Platform - Backend",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NAMANUPADHYAY654/smartcareer-ai"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}

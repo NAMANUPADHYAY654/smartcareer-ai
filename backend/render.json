@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: smartcareer-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        scope: build,runtime
+        sync: false
+      - key: JWT_SECRET
+        scope: build,runtime
+        sync: false
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        value: https://smartcareer-frontend.onrender.com
