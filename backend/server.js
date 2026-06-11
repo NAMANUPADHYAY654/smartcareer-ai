@@ -6,6 +6,9 @@ import skillGapRoutes from './routes/skillGap.js';
 import careerPathRoutes from './routes/careerPath.js';
 import jobMarketRoutes from './routes/jobMarket.js';
 import userRoutes from './routes/user.js';
+import salaryNegotiationRoutes from './routes/salaryNegotiation.js';
+import learningPathRoutes from './routes/learningPath.js';
+import { requestLogger, errorHandler, notFound } from './middleware.js';
 
 dotenv.config();
 
@@ -15,6 +18,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(requestLogger);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/smartcareer')
@@ -26,17 +30,19 @@ app.use('/api/users', userRoutes);
 app.use('/api/skill-gap', skillGapRoutes);
 app.use('/api/career-path', careerPathRoutes);
 app.use('/api/job-market', jobMarketRoutes);
+app.use('/api/salary-negotiation', salaryNegotiationRoutes);
+app.use('/api/learning-path', learningPathRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'SmartCareer AI Backend Running' });
+  res.json({ status: 'SmartCareer AI Backend Running', timestamp: new Date() });
 });
 
+// 404 handler
+app.use(notFound);
+
 // Error handling
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Internal Server Error', message: err.message });
-});
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
